@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<h1>Мое приложения </h1>
+<hr>
+Имя: <input type="text" id="namebox">
+Возраст: <input type="text" id="agebox">
+номер: <input type="text" id="numberbox">
+Пол: <input type="text" id="sexbox">
+<hr>
+<button id="insert">Добавить В Бд</button><br>
+<button id="select">Выбрать из Бд</button><br>
+<button id="update">Обновить</button><br>
+<button id="delete">Удалить из Бд</button><br>
+
+
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-database.js"></script>
+    <script>
+
+var firebaseConfig = {
+    apiKey: "AIzaSyD6Kf3_vXiTe9kplqb7HUqEk6ZoSLdUD78",
+    authDomain: "my-o-47ebf.firebaseapp.com",
+    databaseURL: "https://my-o-47ebf.firebaseio.com",
+    projectId: "my-o-47ebf",
+    storageBucket: "my-o-47ebf.appspot.com",
+    messagingSenderId: "583489410263",
+    appId: "1:583489410263:web:1f513a43c8d9d7a4950c92",
+    measurementId: "G-DYD0GX1XLH"
+};
+firebase.initializeApp(firebaseConfig);
+var nameV,AgeV,numberV,polV;
+function Ready(){
+nameV=document.getElementById('namebox').value;
+ageV=document.getElementById('agebox').value;
+numberV=document.getElementById('numberbox').value;
+polV=document.getElementById('sexbox').value;
+
+}
+
+
+document.getElementById('insert').onclick=function(){
+    Ready();
+    firebase.database().ref('users/'+numberV).set({
+        nomer:numberV,
+        Vozrast:ageV,
+        Imy:nameV,
+        Pol:polV
+
+
+    })
+    console.log("выбранны данные")
+}
+
+document.getElementById('select').onclick=function(){
+    Ready();
+    firebase.database().ref('users/'+numberV).on(value,function(snapshot){
+        document.getElementById('namebox').value=snapshot.val().Imy;
+        document.getElementById('agebox').value=snapshot.val().Vozrast;
+        document.getElementById('sexbox').value=snapshot.val().Pol;
+        
+    })
+    console.log("данные выбраны")
+}
+
+document.getElementById('update').onclick=function(){
+    Ready();
+    firebase.database().ref('users/'+numberV).update({
+        Vozrast:ageV,
+        Imy:nameV,
+        Pol:polV
+
+
+    })
+    console.log(" данные обновлены");
+
+}
+
+
+document.getElementById('delete').onclick=function(){
+    Ready();
+    firebase.database().ref('users/'+numberV).delete({})
+    console.log(' Номер '+numberV+'удален из Бд');
+
+}
+</script>
+        
+
+</body>
+</html>
